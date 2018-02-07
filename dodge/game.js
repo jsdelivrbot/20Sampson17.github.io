@@ -6,7 +6,7 @@ var enemyImage;
 var backgroundImage;
 var score;
 var level;
-
+var roundedScore;
 
 function preload() {
    playerImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/N5uCbDu.png");
@@ -16,8 +16,9 @@ function preload() {
 
 function setup() {
     isGameOver = false;
-    score = 0;
+    score = 1;
     level = 1;
+    roundedScore = 1;
     createCanvas(256, 256);
     player = createSprite(width/2, height-(playerImage.height/2), 0, 0);
     player.addImage(playerImage);
@@ -42,10 +43,10 @@ function draw() {
     textAlign(CENTER);
     fill("white");
     text("Score: ", width/10, height/10);
-    text(score, width/15, height/6);
+    text(score, width/5, height/10);
     
-    text("Level: ", 9*width/10, height/10);
-    text(level, 13*width/15, height/6);
+    text("Level: ", width/10, height/6);
+    text(level, width/5, height/6);
     
     drawSprites();
     
@@ -65,21 +66,13 @@ function draw() {
         score += 1
     }
     
-    if (score >= 0 && score <= 10 ) {
-        level = 1
-    } else {
-        if (score > 10 && score <= 20) {
-            level = 2
-        } else {
-            if (score > 20 && score <= 30) {
-                level = 3
-            } else {
-                level = 4
-            }
-            }
-        }
+    roundedScore = Math.ceil(score / 10) * 10
+    
+    level = roundedScore / 10
+    
+    
     }
-    }
+}
 
 function gameOver() {
     background(0);
@@ -92,7 +85,7 @@ function gameOver() {
 function mouseClicked() {
     if (isGameOver) {
     isGameOver = false;
-    score = 0
+    score = 1
     player.position.x = width/2;
     player.position.y = height-(playerImage.height/2);
     enemy.position.x = width/2;
